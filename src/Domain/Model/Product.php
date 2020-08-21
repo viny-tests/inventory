@@ -5,7 +5,7 @@ namespace App\Domain\Model;
 
 use App\Domain\ValueObject\Uuid;
 
-final class Product
+class Product
 {
     private Uuid $uuid;
     private string $name;

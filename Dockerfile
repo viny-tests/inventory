@@ -12,6 +12,7 @@ RUN apk --update add --no-cache \
     nodejs-npm \
     && rm -rf /var/cache/apk/*
 
+
 RUN docker-php-ext-install \
         mbstring \
         gd \
@@ -21,7 +22,9 @@ RUN docker-php-ext-install \
         tokenizer \
         ctype \
         pcntl \
-        opcache \
+        && pecl install xdebug \
+        && docker-php-ext-enable xdebug \
+        && echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/xdebug.ini \
         && pecl install -f mongodb \
         && echo 'extension=mongodb.so' > /usr/local/etc/php/conf.d/30_mongodb.ini \
         && pecl install -f apcu \
