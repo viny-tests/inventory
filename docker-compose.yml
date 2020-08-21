@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  fpm:
+    container_name: api.products.dev
+    build:
+      context: .
+    volumes:
+      - ./:/app
+    networks:
+      - seven-senders
+
+  nginx:
+    container_name: webserver.products.dev
+    image: nginx:1.19.2-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - fpm
+    ports:
+      - "8080:80"
+    networks:
+      - seven-senders
+
+  mongo:
+    container_name: mongo.products.dev
+    image: mongo:4.4.0
+    volumes:
+      - /data/db
+    networks:
+      - seven-senders
+
+networks:
+  seven-senders:
+    driver: bridge
