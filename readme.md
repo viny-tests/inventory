@@ -34,3 +34,13 @@ php bin/console 7senders:products:import-prices
 * CQRS
 * DDD
 * Covered by unit/feature tests
+
+## Endpoints
+
+| Method | Path                            | Description                             |
+|--------|---------------------------------|-----------------------------------------|
+| GET    | /v1/products                    | Products List                           |
+| GET    | /v1/products/{sku}              | Get product By SKU                      |
+| GET    | /v1/products/{sku}/units/{unit} | Get product with unit price information |
+
+Responses using pattern REST [JSON API 1.0 Specification](https://jsonapi.org/format/)
