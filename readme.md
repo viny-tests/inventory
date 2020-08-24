@@ -37,6 +37,8 @@ php bin/console 7senders:products:import-prices
 
 ## Endpoints
 
+Base Docker: http://localhost:8080/
+
 | Method | Path                            | Description                             |
 |--------|---------------------------------|-----------------------------------------|
 | GET    | /v1/products                    | Products List                           |
