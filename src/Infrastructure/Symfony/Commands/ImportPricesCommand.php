@@ -32,6 +32,8 @@ class ImportPricesCommand extends Command
             $this->importerService->importPrices();
         } catch (JsonException $e) {
             $output->writeln(sprintf('Error: %s', $e->getMessage()));
+
+            return Command::FAILURE;
         }
         $output->writeln('Done');
 

@@ -65,16 +65,6 @@ class Product
     }
 
     /**
-     * @param mixed $id
-     * @return Product
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getSku(): string
@@ -129,57 +119,29 @@ class Product
     }
 
     /**
-     * @return mixed
+     * @return PersistentCollection
      */
     public function getPrices(): PersistentCollection
     {
         return $this->prices;
     }
 
-    /**
-     * @param mixed $prices
-     * @return Product
-     */
-    public function setPrices($prices)
-    {
-        $this->prices = $prices;
-        return $this;
-    }
-
-    /**
-     * @param mixed $createdAt
-     * @return Product
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
-     * @param mixed $updatedAt
-     * @return Product
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-        return $this;
-    }
-
 
     /**
      * @PrePersist()
+     * @codeCoverageIgnore
      */
     public function prePersist(): void
     {
-        $this->setCreatedAt(new DateTime());
+        $this->createdAt = new DateTime();
     }
 
     /**
      * @PreUpdate()
+     * @codeCoverageIgnore
      */
     public function preUpdate(): void
     {
-        $this->setUpdatedAt(new DateTime());
+        $this->updatedAt = new DateTime();
     }
 }

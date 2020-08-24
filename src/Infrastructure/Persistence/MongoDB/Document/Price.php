@@ -21,14 +21,6 @@ class Price
     private string $currency;
 
     /**
-     * @return int
-     */
-    public function getValue(): int
-    {
-        return $this->value;
-    }
-
-    /**
      * @param int $value
      * @return Price
      */
@@ -54,14 +46,6 @@ class Price
     {
         $this->unit = $unit;
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurrency(): string
-    {
-        return $this->currency;
     }
 
     /**
