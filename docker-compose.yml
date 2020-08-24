@@ -29,6 +29,8 @@ services:
     image: mongo:4.4.0
     volumes:
       - /data/db
+    ports:
+    - 27018:27017
     networks:
       - seven-senders
 

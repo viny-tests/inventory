@@ -23,7 +23,6 @@ RUN docker-php-ext-install \
         ctype \
         pcntl \
         && pecl install xdebug \
-        && docker-php-ext-enable xdebug \
         && echo "zend_extension=xdebug.so" >> /usr/local/etc/php/conf.d/xdebug.ini \
         && pecl install -f mongodb \
         && echo 'extension=mongodb.so' > /usr/local/etc/php/conf.d/30_mongodb.ini \

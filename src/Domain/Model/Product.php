@@ -3,29 +3,36 @@ declare(strict_types=1);
 
 namespace App\Domain\Model;
 
-use App\Domain\ValueObject\Uuid;
+use App\Domain\ValueObject\Sku;
 
 class Product
 {
-    private Uuid $uuid;
+    private Sku $sku;
     private string $name;
+    private string $description;
     private PriceCollection $prices;
 
-    public function __construct(Uuid $uuid, string $name, PriceCollection $prices)
+    public function __construct(Sku $sku, string $name, string $description, ?PriceCollection $prices = null)
     {
-        $this->uuid = $uuid;
+        $this->sku = $sku;
         $this->name = $name;
-        $this->prices = $prices;
+        $this->description = $description;
+        $this->prices = $prices ?? new PriceCollection();
     }
 
-    public function uuid(): Uuid
+    public function sku(): Sku
     {
-        return $this->uuid;
+        return $this->sku;
     }
 
     public function name(): string
     {
         return $this->name;
+    }
+
+    public function description(): string
+    {
+        return $this->description;
     }
 
     public function prices(): PriceCollection
