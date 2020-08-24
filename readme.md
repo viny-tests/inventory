@@ -14,6 +14,10 @@ docker exec -it api.products.dev sh
 php bin/console doctrine:mongodb:schema:create
 # running tests
 vendor/bin/phpunit
+# import products
+php bin/console 7senders:products:import-info
+# import prices
+php bin/console 7senders:products:import-prices
 ```
 
 ### Composed
@@ -24,3 +28,9 @@ vendor/bin/phpunit
 * Symfony 5.1.*
 * PHP Unit 9
 * PHPStan analytics
+
+### Architecture
+
+* CQRS
+* DDD
+* Covered by unit/feature tests

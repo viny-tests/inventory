@@ -37,10 +37,13 @@ class ProductRepository extends DocumentRepository implements ProductRepositoryI
         return $collection;
     }
 
-    private function priceCollection(ProductMongoDB $product): PriceCollection
+    private function priceCollection(ProductMongoDB $product, ?string $unit = null): PriceCollection
     {
         $priceCollection = new PriceCollection();
         foreach ($product->getPrices() as $price) {
+            if (!is_null($unit) && $price->getUnit() !== $unit) {
+                continue;
+            }
             $priceCollection->add(new DomainPrice($price->getValue(), $price->getUnit(), $price->getCurrency()));
         }
 
@@ -62,6 +65,21 @@ class ProductRepository extends DocumentRepository implements ProductRepositoryI
             $productDB->getName(),
             $productDB->getDescription(),
             $this->priceCollection($productDB)
+        );
+    }
+
+    public function findOneBySkuAndUnit(Sku $sku, string $unit): Product
+    {
+        /**
+         * @var ProductMongoDB $productDB
+         */
+        $productDB = $this->findOneBy(['sku' => $sku->value()]);
+
+        return new Product(
+            new Sku($productDB->getSku()),
+            $productDB->getName(),
+            $productDB->getDescription(),
+            $this->priceCollection($productDB, $unit)
         );
     }
 

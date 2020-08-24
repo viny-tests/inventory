@@ -29,7 +29,9 @@ class GetProducts extends AbstractController
 
     public function __invoke(Request $request)
     {
-        $products = $this->getProductsQuery->handle(new ProductCriteria($request->query->all()));
+        $filters = json_decode($request->query->get('filters[]', '[]'), true);
+
+        $products = $this->getProductsQuery->handle(new ProductCriteria($filters));
         $resource = new Collection($products, new ProductTransformer, 'product');
 
         return $this->json($this->fractal->createData($resource)->toArray());
