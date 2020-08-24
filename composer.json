@@ -5,6 +5,8 @@
         "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-mongodb": "*",
         "doctrine/annotations": "^1.0",
         "doctrine/mongodb-odm-bundle": "^4.2",
         "phpdocumentor/reflection-docblock": "^5.2",

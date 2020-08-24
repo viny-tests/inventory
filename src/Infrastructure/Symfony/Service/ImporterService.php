@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Symfony\Service;
 
+use App\Application\Command\PriceCommand;
+use App\Application\Command\PriceCreateCommandHandler;
 use App\Application\Command\ProductCommand;
 use App\Application\Command\ProductCreateCommandHandler;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -17,10 +19,12 @@ class ImporterService
 {
     private string $importPath;
     private ProductCreateCommandHandler $productCreateCommandHandler;
+    private PriceCreateCommandHandler $priceCreateCommandHandler;
 
-    public function __construct(ProductCreateCommandHandler $productCreateCommandHandler)
+    public function __construct(ProductCreateCommandHandler $productCreateCommandHandler, PriceCreateCommandHandler $priceCreateCommandHandler)
     {
         $this->productCreateCommandHandler = $productCreateCommandHandler;
+        $this->priceCreateCommandHandler = $priceCreateCommandHandler;
 
         $this->importPath = dirname(__DIR__, 4) . '/import';
     }
@@ -39,9 +43,21 @@ class ImporterService
             $name = $propertyAccessor->getValue($product, '[Name]');
             $description = $this->cleanDescription($propertyAccessor->getValue($product, '[Description]'));
             $sku = $propertyAccessor->getValue($product, '[sku]');
-            $product = new ProductCommand($sku, $name, $description);
+            $command = new ProductCommand($sku, $name, $description);
 
-            $this->productCreateCommandHandler->handle($product);
+            $this->productCreateCommandHandler->handle($command);
+        }
+    }
+
+    public function importPrices(): void
+    {
+        $pricesFile = $this->importPath . '/prices.json';
+        $prices = json_decode(file_get_contents($pricesFile), false, 512, JSON_THROW_ON_ERROR);
+
+        foreach ($prices as $price) {
+            $command = new PriceCommand($price->id, (int) $price->price->value * 100, $price->price->currency, $price->unit);
+
+            $this->priceCreateCommandHandler->handle($command);
         }
     }
 

@@ -12,6 +12,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations\Id;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\Index;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\PrePersist;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\PreUpdate;
+use Doctrine\ODM\MongoDB\PersistentCollection;
 
 /**
  * @Document(repositoryClass="\App\Infrastructure\Persistence\MongoDB\ProductRepository")
@@ -43,7 +44,7 @@ class Product
     /**
      * @EmbedMany(targetDocument=Price::class)
      */
-    private $prices;
+    private PersistentCollection $prices;
 
     /**
      * @Field(type="date")
@@ -130,7 +131,7 @@ class Product
     /**
      * @return mixed
      */
-    public function getPrices()
+    public function getPrices(): PersistentCollection
     {
         return $this->prices;
     }

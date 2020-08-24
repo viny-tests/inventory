@@ -13,4 +13,5 @@ interface ProductRepositoryInterface
     public function findAllByCriteria(ProductCriteria $criteria): ProductCollection;
     public function findOneBySku(Sku $sku): Product;
     public function store(Product $product): void;
+    public function update(Product $product): void;
 }

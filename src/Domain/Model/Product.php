@@ -39,4 +39,9 @@ class Product
     {
         return $this->prices;
     }
+
+    public function addPrice(Price $price): void
+    {
+        $this->prices->add($price);
+    }
 }
