@@ -22,6 +22,9 @@ class Kernel extends BaseKernel
         parent::__construct($environment, $debug);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function configureContainer(ContainerConfigurator $container): void
     {
         $container->import($this->resourcePath . '/config/{packages}/*.yaml');
@@ -35,6 +38,9 @@ class Kernel extends BaseKernel
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $routes->import($this->resourcePath . '/config/{routes}/'.$this->environment.'/*.yaml');

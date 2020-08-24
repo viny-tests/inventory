@@ -28,6 +28,9 @@ class ImportProductsCommandTest extends KernelTestCase
 
         $output = $commandTester->getDisplay();
 
+        // test side effects
+        $commandTester->execute([]);
+
         self::assertStringContainsString('Importing products information', $output);
         self::assertStringContainsString('Done', $output);
         self::assertEquals(Command::SUCCESS, $result);

@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\MongoDB;
 
+use App\Domain\Model\PriceCollection;
 use App\Domain\Model\Product;
+use App\Domain\Model\Price as DomainPrice;
 use App\Domain\Model\ProductCollection;
 use App\Domain\Query\ProductCriteria;
 use App\Domain\Repository\Exception\ProductNotFoundException;
@@ -18,7 +20,31 @@ class ProductRepository extends DocumentRepository implements ProductRepositoryI
 {
     public function findAllByCriteria(ProductCriteria $criteria): ProductCollection
     {
+        $collection = new ProductCollection();
         $products = $this->findBy($criteria->criteria());
+
+        foreach ($products as $product) {
+            $collection->add(
+                new Product(
+                    new Sku($product->getSku()),
+                    $product->getName(),
+                    $product->getDescription(),
+                    $this->priceCollection($product)
+                )
+            );
+        }
+
+        return $collection;
+    }
+
+    private function priceCollection(ProductMongoDB $product): PriceCollection
+    {
+        $priceCollection = new PriceCollection();
+        foreach ($product->getPrices() as $price) {
+            $priceCollection->add(new DomainPrice($price->getValue(), $price->getUnit(), $price->getCurrency()));
+        }
+
+        return $priceCollection;
     }
 
     public function findOneBySku(Sku $sku): Product
@@ -31,7 +57,12 @@ class ProductRepository extends DocumentRepository implements ProductRepositoryI
             throw new ProductNotFoundException($sku);
         }
 
-        return new Product(new Sku($productDB->getSku()), $productDB->getName(), $productDB->getDescription());
+        return new Product(
+            new Sku($productDB->getSku()),
+            $productDB->getName(),
+            $productDB->getDescription(),
+            $this->priceCollection($productDB)
+        );
     }
 
     public function store(Product $product): void

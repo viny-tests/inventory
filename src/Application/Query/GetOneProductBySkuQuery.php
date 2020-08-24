@@ -12,7 +12,7 @@ class GetOneProductBySkuQuery implements GetOneProductBySkuHandlerInterface
 {
     use ProductRepositoryDependency;
 
-    public function getBySku(Sku $sku): Product
+    public function handle(Sku $sku): Product
     {
         return $this->productRepository->findOneBySku($sku);
     }

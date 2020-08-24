@@ -8,5 +8,5 @@ use App\Domain\Query\ProductCriteria;
 
 interface GetProductQueryHandlerInterface
 {
-    public function getByCriteria(ProductCriteria $criteria): ProductCollection;
+    public function handle(ProductCriteria $criteria): ProductCollection;
 }

@@ -8,5 +8,5 @@ use App\Domain\ValueObject\Sku;
 
 interface GetOneProductBySkuHandlerInterface
 {
-    public function getBySku(Sku $sku): Product;
+    public function handle(Sku $sku): Product;
 }

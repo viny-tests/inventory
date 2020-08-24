@@ -12,7 +12,7 @@ class GetProductsQuery implements GetProductQueryHandlerInterface
 {
     use ProductRepositoryDependency;
 
-    public function getByCriteria(ProductCriteria $criteria): ProductCollection
+    public function handle(ProductCriteria $criteria): ProductCollection
     {
         return $this->productRepository->findAllByCriteria($criteria);
     }
